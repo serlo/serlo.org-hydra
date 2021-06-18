@@ -1,0 +1,33 @@
+version: "3.4"
+
+services:
+#  postgres:
+#    image: postgres:9.6
+#    environment:
+#      - POSTGRES_PASSWORD=secret
+#      - POSTGRES_USER=hydra
+
+  hydra:
+    image: oryd/hydra:v1.10.2-sqlite
+    ports:
+      - "4444:4444"
+      - "4445:4445"
+    command: serve all --dangerous-force-http
+    environment:
+      - LOG_LEVEL=debug
+      - LOG_LEAK_SENSITIVE_VALUES=true
+      - OAUTH2_EXPOSE_INTERNAL_ERRORS=1
+      - URLS_SELF_ISSUER=http://localhost:4444
+      - URLS_LOGIN=http://de.serlo.localhost:4567/auth/hydra/login
+      - URLS_LOGOUT=http://de.serlo.localhost:4567/auth/hydra/logout
+      - URLS_CONSENT=http://de.serlo.localhost:4567/auth/hydra/consent
+#      - DSN=postgres://hydra:secret@postgres/hydra
+      - DSN=memory
+      - SECRETS_SYSTEM=youReallyNeedToChangeThis
+      - OIDC_SUBJECT_IDENTIFIERS_ENABLED=public,pairwise
+      - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
+
+networks:
+  default:
+    external: true
+    name: serlo.org-network

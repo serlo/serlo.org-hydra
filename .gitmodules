@@ -1,0 +1,6 @@
+[submodule "serlo.org"]
+	path = serlo.org
+	url = git@github.com:serlo/serlo.org.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:serlo/frontend.git
